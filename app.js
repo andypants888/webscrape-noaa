@@ -4,20 +4,9 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-// DB Fields to be Sent
-// let statsNow = {
-//   "Yesterday-Max Radio-Blackout": "missing",
-//   "Yesterday-RB-color": "missing",
-// };
-
-// console.log(statsNow);
-
-// statsNow["Yesterday-Max Radio-Blackout"] = "Purple Alert!";
-// statsNow["Yesterday-RB-color"] = "Red Alert!";
-
-// console.log(statsNow);
-
 async function scrape() {
+  let scrapedPackage = [];
+
   try {
     const browser = await puppeteer.launch({
       headless: true,
@@ -164,9 +153,14 @@ async function sendData() {
     // Write Seperate Function
     // await listDatabases(client);
 
-    // In-line function
-    const databasesList = await client.db().admin().listDatabases();
-    console.log(databasesList);
+    // In-line listDatabases Test
+    // const databasesList = await client.db().admin().listDatabases();
+    // console.log(databasesList);
+    await createForecast(client, {
+      "-1-MaxRadioBlackout": "minor",
+      "-1-MaxSolarRadiation": "none",
+      "-1-MaxGeomagStorm": "severe",
+    });
   } catch (err) {
     console.error(err);
   } finally {
@@ -175,3 +169,12 @@ async function sendData() {
 }
 
 sendData().catch(console.error);
+
+async function createForecast(client, newForecast) {
+  const result = await client
+    .db("test-db")
+    .collection("test-collection")
+    .insertOne(newForecast);
+
+  console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
+}
