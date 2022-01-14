@@ -147,7 +147,7 @@ async function scrape() {
 // const interval30Min = setInterval(() => scrape(), 1800000);
 
 // Instant Test
-scrape();
+// scrape();
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
