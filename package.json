@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^11.0.0",
+    "mongodb": "^4.3.0",
     "puppeteer": "^13.0.1"
   }
 }

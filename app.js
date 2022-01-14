@@ -1,4 +1,8 @@
 const puppeteer = require("puppeteer");
+const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 // DB Fields to be Sent
 // let statsNow = {
@@ -151,3 +155,23 @@ async function scrape() {
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
+async function sendData() {
+  const uri = `mongodb+srv://spaceweather:${process.env.PASSWORD}@cluster0.ya4xd.mongodb.net/test?retryWrites=true&w=majority`;
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    // Write Seperate Function
+    // await listDatabases(client);
+
+    // In-line function
+    const databasesList = await client.db().admin().listDatabases();
+    console.log(databasesList);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    await client.close();
+  }
+}
+
+sendData().catch(console.error);
