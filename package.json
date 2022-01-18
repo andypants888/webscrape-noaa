@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +13,8 @@
     "dotenv": "^11.0.0",
     "mongodb": "^4.3.0",
     "puppeteer": "^13.0.1"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }

@@ -181,7 +181,8 @@ async function scrape() {
         key === "solar_mag_field_2" ||
         key === "radio_flux"
       ) {
-        console.log("match_nums: ", key, currentPackage[key]);
+        // Test
+        // console.log("match_nums: ", key, currentPackage[key]);
         currentPackage[key] = Number(currentPackage[key]);
       } else if (
         key === "predict_day1_minor_radio_blackout" ||
@@ -247,3 +248,7 @@ async function createForecast(client, newForecast) {
 
   console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
+
+exports.scrape = scrape;
+exports.package = currentPackage;
+exports.emptyArr = scrapedPackage;
