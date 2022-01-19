@@ -276,8 +276,9 @@ async function wrapper() {
 }
 
 scrape();
+console.log(currentPackage);
 
-exam();
+// exam();
 // wrapper();
 
 // Test exam() without jest
