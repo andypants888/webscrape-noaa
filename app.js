@@ -201,13 +201,25 @@ async function scrape() {
         currentPackage[key] = Number(percentRemoved);
       }
     }
-
-    console.log("Object to be sent", currentPackage);
+    // Main overall collection test
+    // console.log("Object to be sent", currentPackage);
 
     // Call to MongoDB
     sendData().catch(console.error);
 
     await browser.close();
+    // test passing function through
+    // let testPackage = await new Promise((resolve, reject) => {
+    //   console.log("test promise is running");
+    //   resolve(currentPackage);
+    // });
+    const result = await new Promise((resolve, reject) => {
+      resolve(currentPackage);
+    });
+    console.log("result: ", result);
+    return result;
+
+    // return currentPackage;
   } catch (error) {}
 
   // console.log("direct from NOAA", scrapedPackage);
@@ -216,7 +228,6 @@ async function scrape() {
 // const interval30Min = setInterval(() => scrape(), 1800000);
 
 // Instant Test
-scrape();
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
@@ -246,9 +257,42 @@ async function createForecast(client, newForecast) {
     .collection("test-collection")
     .insertOne(newForecast);
 
-  console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
+  // Test for insert success to mongoDB
+  // console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
+async function exam() {
+  const result = await new Promise((resolve, reject) => {
+    resolve("exam text");
+  });
+  console.log(result);
+  return result;
+}
+
+async function wrapper() {
+  const scum = await scrape();
+  console.log(scum);
+  return scum;
+}
+
+scrape();
+
+exam();
+// wrapper();
+
+// Test exam() without jest
+// let data = exam();
+// data.then((arg) => {
+//   console.log(arg);
+// });
+
+// async function read() {
+//   let data = await test();
+//   console.log(data);
+// }
+// read();
 exports.scrape = scrape;
+exports.wrapper = wrapper;
+exports.exam = exam;
 exports.package = currentPackage;
 exports.emptyArr = scrapedPackage;
