@@ -4,6 +4,9 @@ app = require("./app");
 
 jest.setTimeout(30000);
 
+// optional jest flags
+// --coverage --watchAll --detectOpenHandles
+
 test("creates an empty array", () => {
   expect(app.emptyArr).toEqual([]);
 });

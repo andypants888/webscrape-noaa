@@ -49,31 +49,11 @@ async function scrape() {
       "#summary > ul > li > .summary-field-value"
     );
 
-    // Test Variables
-    // let summaryCount = 1;
-    // let scaleCount = 1;
-    // let minorProbCount = 1;
-    // let majorProbCount = 1;
-    // let solarStormProbCount = 1;
-
     // Get Solar Wind Stats
     for (const elementHandle of solarWindStatsHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
 
-      // Simple Tests
-      // console.log(`Summary-item:`, item);
       scrapedPackage.push(item);
-
-      // Test length, count, dates
-      // console.log("length: ", solarWindStatsHandles.length);
-      // console.log(summaryCount);
-      // summaryCount++;
-
-      // if (summaryCount === 4) {
-      //   console.log("Solar Wind Stats 4/4 collected");
-      //   now = new Date();
-      //   console.log(`Current Time: ${now}`);
-      // }
     }
 
     // Get Scale Descriptions eg. 'null', 'none', 'minor', 'moderate', 'strong', 'severe'
@@ -84,20 +64,7 @@ async function scrape() {
     for (const elementHandle of scaleDescriptionHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
 
-      // Simple Tests
-      // console.log(`Description:`, item);
       scrapedPackage.push(item);
-
-      // Test length, count, dates
-      // console.log("length: ", scaleDescriptionHandles.length);
-      // console.log(scaleCount);
-      // scaleCount++;
-
-      // if (scaleCount === 9) {
-      //   console.log("Scale Descriptions 9/9 collected");
-      //   now = new Date();
-      //   console.log(`Current Time: ${now}`);
-      // }
     }
 
     // Get Minor Radio Blackout Probability out of 100%
@@ -106,19 +73,7 @@ async function scrape() {
     for (const elementHandle of minorProbHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
 
-      // Simple Tests
-      // console.log(item, "chance of Minor Radio Blackout");
       scrapedPackage.push(item);
-      // Test length, count, dates
-      // console.log("length: ", minorProbHandles.length);
-      // console.log(minorProbCount);
-      // minorProbCount++;
-
-      // if (minorProbCount === 3) {
-      //   console.log("Minor Blackout probabilities 3/3 collected");
-      //   now = new Date();
-      //   console.log(`Current Time: ${now}`);
-      // }
     }
 
     // Get Major Radio Blackout Probability out of 100%
@@ -127,20 +82,7 @@ async function scrape() {
     for (const elementHandle of majorProbHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
 
-      // Simple Tests
-      // console.log(item, "chance of Major Radio Blackout");
       scrapedPackage.push(item);
-
-      // Test length, count, dates
-      // console.log("length: ", majorProbHandles.length);
-      // console.log(majorProbCount);
-      // majorProbCount++;
-
-      // if (majorProbCount === 3) {
-      //   console.log("Major Blackout probabilities 3/3 collected");
-      //   now = new Date();
-      //   console.log(`Current Time: ${now}`);
-      // }
     }
 
     // Get Solar Storm Probability out of 100%
@@ -149,20 +91,7 @@ async function scrape() {
     for (const elementHandle of solarStormProbHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
 
-      // Simple Tests
-      // console.log(item, "chance of Solar Storm");
       scrapedPackage.push(item);
-
-      // Test length, count, dates
-      // console.log("length: ", solarStormProbHandles.length);
-      // console.log(solarStormProbCount);
-      // solarStormProbCount++;
-
-      // if (solarStormProbCount === 3) {
-      //   console.log("Solar Storm probabilities 3/3 collected");
-      //   now = new Date();
-      //   console.log(`Current Time: ${now}`);
-      // }
     }
 
     // Replace placeholders in current Package
@@ -170,7 +99,6 @@ async function scrape() {
       for (let i = 0; i < scrapedPackage.length; i++) {
         if (i === currentPackage[key]) {
           currentPackage[key] = scrapedPackage[i];
-          // console.log(currentPackage);
         }
       }
     }
@@ -181,8 +109,6 @@ async function scrape() {
         key === "solar_mag_field_2" ||
         key === "radio_flux"
       ) {
-        // Test
-        // console.log("match_nums: ", key, currentPackage[key]);
         currentPackage[key] = Number(currentPackage[key]);
       } else if (
         key === "predict_day1_minor_radio_blackout" ||
@@ -195,39 +121,25 @@ async function scrape() {
         key === "predict_day2_solar_storm" ||
         key === "predict_day3_solar_storm"
       ) {
-        // console.log("match_%s: ", key, currentPackage[key]);
         const percentRemoved = currentPackage[key].replace("%", "");
-        // console.log(percentRemoved);
         currentPackage[key] = Number(percentRemoved);
       }
     }
-    // Main overall collection test
-    // console.log("Object to be sent", currentPackage);
 
     // Call to MongoDB
     sendData().catch(console.error);
 
     await browser.close();
-    // test passing function through
-    // let testPackage = await new Promise((resolve, reject) => {
-    //   console.log("test promise is running");
-    //   resolve(currentPackage);
-    // });
+
     const result = await new Promise((resolve, reject) => {
       resolve(currentPackage);
     });
     console.log("result: ", result);
     return result;
-
-    // return currentPackage;
   } catch (error) {}
-
-  // console.log("direct from NOAA", scrapedPackage);
 }
 // Production 30 min = 1,800,000 ms
 // const interval30Min = setInterval(() => scrape(), 1800000);
-
-// Instant Test
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
@@ -261,6 +173,7 @@ async function createForecast(client, newForecast) {
   // console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
+// Test Dummy Function
 async function exam() {
   const result = await new Promise((resolve, reject) => {
     resolve("exam text");
@@ -269,6 +182,7 @@ async function exam() {
   return result;
 }
 
+// Trying to wrap main function with promise return
 async function wrapper() {
   const scum = await scrape();
   console.log(scum);
@@ -281,17 +195,6 @@ console.log(currentPackage);
 // exam();
 // wrapper();
 
-// Test exam() without jest
-// let data = exam();
-// data.then((arg) => {
-//   console.log(arg);
-// });
-
-// async function read() {
-//   let data = await test();
-//   console.log(data);
-// }
-// read();
 exports.scrape = scrape;
 exports.wrapper = wrapper;
 exports.exam = exam;

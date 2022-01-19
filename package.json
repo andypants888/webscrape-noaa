@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --watchAll --detectOpenHandles"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
