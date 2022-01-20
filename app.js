@@ -143,7 +143,10 @@ async function scrape() {
   }
 }
 // Production 60 min = 3,600,000 ms
-const interval3Hours = setInterval(() => scrape(), 10800000);
+// const interval3Hours = setInterval(() => scrape(), 10800000);
+
+// Staging Fast Test once per minute
+const interval1Min = setInterval(() => scrape(), 60000);
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
