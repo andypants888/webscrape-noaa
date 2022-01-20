@@ -140,13 +140,15 @@ async function scrape() {
     console.log("error in scrape function");
   } finally {
     browser.close();
+    // Repeat errors in lines 44 to 138 on repeat?
+    // setTimeout(() => scrape(), 30000);
   }
 }
 // Production 60 min = 3,600,000 ms
 // const interval3Hours = setInterval(() => scrape(), 10800000);
 
 // Staging Fast Test once per minute
-const interval1Min = setInterval(() => scrape(), 60000);
+// const interval1Min = setInterval(() => scrape(), 30000);
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
@@ -177,7 +179,7 @@ async function createForecast(client, newForecast) {
     .insertOne(newForecast);
 
   // Test for insert success to mongoDB
-  // console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
+  console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
 // Test Dummy Function
