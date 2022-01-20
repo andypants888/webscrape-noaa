@@ -134,7 +134,7 @@ async function scrape() {
       resolve(currentPackage);
     });
     const result = await preResult;
-    // console.log("result: ", result);
+    console.log("result: ", result);
     return preResult;
   } catch (error) {
     console.log("error in scrape function");
@@ -142,8 +142,8 @@ async function scrape() {
     browser.close();
   }
 }
-// Production 30 min = 1,800,000 ms
-// const interval30Min = setInterval(() => scrape(), 1800000);
+// Production 60 min = 3,600,000 ms
+const interval3Hours = setInterval(() => scrape(), 10800000);
 
 // Interval Test 15 secs = 15,000ms
 // const interval15Sec = setInterval(() => scrape(), 15000);
@@ -169,8 +169,8 @@ async function sendData() {
 
 async function createForecast(client, newForecast) {
   const result = await client
-    .db("test-db")
-    .collection("test-collection")
+    .db("spaceWeather")
+    .collection("NOAA")
     .insertOne(newForecast);
 
   // Test for insert success to mongoDB
@@ -194,7 +194,7 @@ async function wrapper() {
 }
 
 scrape();
-console.log(currentPackage);
+// console.log(currentPackage);
 
 // exam();
 // wrapper();
