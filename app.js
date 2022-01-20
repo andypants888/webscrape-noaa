@@ -35,13 +35,13 @@ let currentPackage = {
 };
 
 async function scrape() {
-  try {
-    const browser = await puppeteer.launch({
-      headless: true,
-      defaultViewport: false,
-    });
-    const page = await browser.newPage();
+  const browser = await puppeteer.launch({
+    headless: true,
+    defaultViewport: false,
+  });
 
+  try {
+    const page = await browser.newPage();
     await page.goto("https://www.swpc.noaa.gov/");
 
     // Get Summary Statistics of NOAA
@@ -130,13 +130,17 @@ async function scrape() {
     sendData().catch(console.error);
 
     await browser.close();
-
-    const result = await new Promise((resolve, reject) => {
+    const preResult = new Promise((resolve, reject) => {
       resolve(currentPackage);
     });
-    console.log("result: ", result);
-    return result;
-  } catch (error) {}
+    const result = await preResult;
+    // console.log("result: ", result);
+    return preResult;
+  } catch (error) {
+    console.log("error in scrape function");
+  } finally {
+    browser.close();
+  }
 }
 // Production 30 min = 1,800,000 ms
 // const interval30Min = setInterval(() => scrape(), 1800000);
@@ -157,7 +161,7 @@ async function sendData() {
     // console.log(databasesList);
     await createForecast(client, currentPackage);
   } catch (err) {
-    console.error(err);
+    // console.error(err);
   } finally {
     await client.close();
   }

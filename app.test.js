@@ -29,12 +29,45 @@ test("main scrape func returns obj package", () => {
   return app.scrape().then((data) => {
     console.log("app.package: ", app.package);
     console.log("data: ", data);
+
+    // Intentional Failure Test
+    // console.log("wind speed: ", app.package["solar_wind_speed"]);
+    // app.package["solar_wind_speed"] = "GARBAGE!";
+    // console.log("wind speed: ", app.package["solar_wind_speed"]);
+
     expect(typeof app.package["solar_wind_speed"]).toBe("number");
     expect(typeof app.package["solar_mag_field_1"]).toBe("number");
     expect(typeof app.package["solar_mag_field_2"]).toBe("number");
     expect(typeof app.package["yester_max_radio_blackout"]).toBe("string");
     expect(typeof app.package["yester_max_solar_radiation"]).toBe("string");
     expect(typeof app.package["yester_max_geomag_storm"]).toBe("string");
+    expect(typeof app.package["current_radio_blackout"]).toBe("string");
+    expect(typeof app.package["current_solar_radiation"]).toBe("string");
+    expect(typeof app.package["current_geomag_storm"]).toBe("string");
+    expect(typeof app.package["predict_day1_geomag_storm"]).toBe("string");
+    expect(typeof app.package["predict_day2_geomag_storm"]).toBe("string");
+    expect(typeof app.package["predict_day3_geomag_storm"]).toBe("string");
+    expect(typeof app.package["predict_day1_minor_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day2_minor_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day3_minor_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day1_major_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day2_major_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day3_major_radio_blackout"]).toBe(
+      "number"
+    );
+    expect(typeof app.package["predict_day1_solar_storm"]).toBe("number");
+    expect(typeof app.package["predict_day2_solar_storm"]).toBe("number");
+    expect(typeof app.package["predict_day3_solar_storm"]).toBe("number");
   });
 });
 
