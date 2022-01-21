@@ -59,9 +59,28 @@ let currentPackage = {
 };
 
 async function scrape() {
+  // If on 2nd iteration, reset all.
   console.log("before deleted ID", typeof currentPackage["_id"]);
   if (typeof currentPackage["_id"] === "object") {
+    console.log("Begin Tests");
+
     delete currentPackage["_id"];
+
+    // console.log("Before next loop", currentPackage);
+
+    console.log("Current Package BEFORE RESET", currentPackage, scrapedPackage);
+    for (const member in currentPackage) delete currentPackage[member];
+    console.log("New Package BEFORE reset", newPackage);
+
+    // Reset Scraped Package
+    scrapedPackage = [];
+    // Reset currentPackage Object
+    currentPackage = JSON.parse(JSON.stringify(newPackage));
+
+    console.log("Current Package AFTER reset", currentPackage, scrapedPackage);
+    console.log("New Package AFTER reset", newPackage);
+    console.log("End Tests");
+    // Repeat errors in lines 44 to 138 on repeat?
   }
   console.log("after delete ID", typeof currentPackage["_id"]);
 
@@ -175,24 +194,9 @@ async function scrape() {
     // Loop is NOT properly resetting to original state.
     // Same MongoDB ID is being generated each time?
     // Date is being generated only once per loop. Scrape needs to be in a for loop?
-    console.log("Begin Tests");
-    // console.log("Before next loop", currentPackage);
 
-    console.log("Current Package BEFORE RESET", currentPackage, scrapedPackage);
-    for (const member in currentPackage) delete currentPackage[member];
-    console.log("New Package BEFORE reset", newPackage);
-
-    // Reset Scraped Package
-    scrapedPackage = [];
-    // Reset currentPackage Object
-    currentPackage = JSON.parse(JSON.stringify(newPackage));
-    // currentPackage = newPackage;
-
-    console.log("Current Package AFTER reset", currentPackage, scrapedPackage);
-    console.log("New Package AFTER reset", newPackage);
-    console.log("End Tests");
-    // Repeat errors in lines 44 to 138 on repeat?
-    setTimeout(scrape, 30000);
+    // Run once every 2 hours
+    setTimeout(scrape, 7200000);
   }
 }
 // Production 60 min = 3,600,000 ms
