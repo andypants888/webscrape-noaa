@@ -193,9 +193,6 @@ async function scrape() {
     console.log("error in scrape function");
   } finally {
     browser.close();
-    // Loop is NOT properly resetting to original state.
-    // Same MongoDB ID is being generated each time?
-    // Date is being generated only once per loop. Scrape needs to be in a for loop?
 
     // Run once every 2 hours
     setTimeout(scrape, 7200000);
@@ -204,24 +201,16 @@ async function scrape() {
 // Production 60 min = 3,600,000 ms
 // const interval3Hours = setInterval(() => scrape(), 10800000);
 
-// Staging Fast Test once per minute
-// const interval1Min = setInterval(() => scrape(), 30000);
-
-// Interval Test 15 secs = 15,000ms
-// const interval15Sec = setInterval(() => scrape(), 15000);
+// Interval Test 30 secs = 30,000ms
+// const interval30Sec = setInterval(() => scrape(), 30000);
 async function sendData() {
   const uri = `mongodb+srv://spaceweather:${process.env.PASSWORD}@cluster0.ya4xd.mongodb.net/test?retryWrites=true&w=majority`;
   const client = new MongoClient(uri);
 
   try {
     await client.connect();
-    // Write Seperate Function
-    // await listDatabases(client);
-
-    // In-line listDatabases Test
-    // const databasesList = await client.db().admin().listDatabases();
-    // console.log(databasesList);
     await createForecast(client, currentPackage);
+    console.log("Trying to connect MongoDB");
   } catch (err) {
     // console.error(err);
   } finally {
@@ -235,32 +224,10 @@ async function createForecast(client, newForecast) {
     .collection("NOAA")
     .insertOne(newForecast);
 
-  // Test for insert success to mongoDB
-  // Fires off only one time on loop...?
   console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
-// Test Dummy Function
-async function exam() {
-  const result = await new Promise((resolve, reject) => {
-    resolve("exam text");
-  });
-  console.log(result);
-  return result;
-}
-
-// Trying to wrap main function with promise return
-async function wrapper() {
-  const scum = await scrape();
-  console.log(scum);
-  return scum;
-}
-
 scrape();
-// console.log(currentPackage);
-
-// exam();
-// wrapper();
 
 exports.scrape = scrape;
 exports.wrapper = wrapper;
