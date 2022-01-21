@@ -4,9 +4,33 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const now = new Date();
-
 let scrapedPackage = [];
+
+let newPackage = {
+  solar_wind_speed: 0,
+  solar_mag_field_1: 1,
+  solar_mag_field_2: 2,
+  radio_flux: 3,
+  yester_max_radio_blackout: 4,
+  yester_max_solar_radiation: 5,
+  yester_max_geomag_storm: 6,
+  current_radio_blackout: 7,
+  current_solar_radiation: 8,
+  current_geomag_storm: 9,
+  predict_day1_geomag_storm: 10,
+  predict_day2_geomag_storm: 11,
+  predict_day3_geomag_storm: 12,
+  predict_day1_minor_radio_blackout: 13,
+  predict_day2_minor_radio_blackout: 14,
+  predict_day3_minor_radio_blackout: 15,
+  predict_day1_major_radio_blackout: 16,
+  predict_day2_major_radio_blackout: 17,
+  predict_day3_major_radio_blackout: 18,
+  predict_day1_solar_storm: 19,
+  predict_day2_solar_storm: 20,
+  predict_day3_solar_storm: 21,
+  scrape_time: {},
+};
 
 let currentPackage = {
   solar_wind_speed: 0,
@@ -31,10 +55,12 @@ let currentPackage = {
   predict_day1_solar_storm: 19,
   predict_day2_solar_storm: 20,
   predict_day3_solar_storm: 21,
-  scrape_time: now,
+  scrape_time: {},
 };
 
 async function scrape() {
+  currentPackage["scrape_time"] = new Date();
+
   const browser = await puppeteer.launch({
     headless: true,
     defaultViewport: false,
@@ -133,15 +159,36 @@ async function scrape() {
     const preResult = new Promise((resolve, reject) => {
       resolve(currentPackage);
     });
-    const result = await preResult;
-    console.log("result: ", result);
+    // const result = await preResult;
+    // console.log("result: ", result);
     return preResult;
   } catch (error) {
     console.log("error in scrape function");
   } finally {
     browser.close();
+    // Loop is NOT properly resetting to original state.
+    // Same MongoDB ID is being generated each time?
+    // Date is being generated only once per loop. Scrape needs to be in a for loop?
+    console.log("Begin Tests");
+    // console.log("Before next loop", currentPackage);
+
+    console.log(currentPackage, scrapedPackage);
+    currentPackage = {};
+    scrapedPackage = [];
+    console.log(currentPackage, scrapedPackage);
+
+    // console.log("Solar Wind Speed", currentPackage["solar_wind_speed"]);
+    // console.log(
+    //   "Minor RB",
+    //   currentPackage["predict_day1_minor_radio_blackout"]
+    // );
+    // console.log("Solar Storm", currentPackage["predict_day1_solar_storm"]);
+
+    currentPackage = newPackage;
+    console.log("Current Package", currentPackage);
+    console.log("End Tests");
     // Repeat errors in lines 44 to 138 on repeat?
-    // setTimeout(() => scrape(), 30000);
+    setTimeout(scrape, 30000);
   }
 }
 // Production 60 min = 3,600,000 ms
@@ -179,6 +226,7 @@ async function createForecast(client, newForecast) {
     .insertOne(newForecast);
 
   // Test for insert success to mongoDB
+  // Fires off only one time on loop...?
   console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
