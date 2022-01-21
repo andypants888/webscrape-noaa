@@ -63,10 +63,7 @@ async function scrape() {
   console.log("before deleted ID", typeof currentPackage["_id"]);
   if (typeof currentPackage["_id"] === "object") {
     console.log("Begin Tests");
-
     delete currentPackage["_id"];
-
-    // console.log("Before next loop", currentPackage);
 
     console.log("Current Package BEFORE RESET", currentPackage, scrapedPackage);
     for (const member in currentPackage) delete currentPackage[member];
@@ -86,6 +83,8 @@ async function scrape() {
 
   currentPackage["scrape_time"] = new Date();
 
+  console.log("Trying to launch puppeteer...");
+
   const browser = await puppeteer.launch({
     headless: true,
     defaultViewport: false,
@@ -93,6 +92,7 @@ async function scrape() {
   });
 
   try {
+    console.log("Trying to execute main function...");
     const page = await browser.newPage();
     await page.goto("https://www.swpc.noaa.gov/");
 
@@ -104,6 +104,7 @@ async function scrape() {
     // Get Solar Wind Stats
     for (const elementHandle of solarWindStatsHandles) {
       const item = await page.evaluate((elem) => elem.innerHTML, elementHandle);
+      console.log("Puppeteer is functioning...");
 
       scrapedPackage.push(item);
     }
