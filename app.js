@@ -178,20 +178,18 @@ async function scrape() {
     console.log("Begin Tests");
     // console.log("Before next loop", currentPackage);
 
-    console.log(currentPackage, scrapedPackage);
-    currentPackage = {};
+    console.log("Current Package BEFORE RESET", currentPackage, scrapedPackage);
+    for (const member in currentPackage) delete currentPackage[member];
+    console.log("New Package BEFORE reset", newPackage);
+
+    // Reset Scraped Package
     scrapedPackage = [];
-    console.log(currentPackage, scrapedPackage);
+    // Reset currentPackage Object
+    currentPackage = JSON.parse(JSON.stringify(newPackage));
+    // currentPackage = newPackage;
 
-    // console.log("Solar Wind Speed", currentPackage["solar_wind_speed"]);
-    // console.log(
-    //   "Minor RB",
-    //   currentPackage["predict_day1_minor_radio_blackout"]
-    // );
-    // console.log("Solar Storm", currentPackage["predict_day1_solar_storm"]);
-
-    currentPackage = newPackage;
-    console.log("Current Package", currentPackage);
+    console.log("Current Package AFTER reset", currentPackage, scrapedPackage);
+    console.log("New Package AFTER reset", newPackage);
     console.log("End Tests");
     // Repeat errors in lines 44 to 138 on repeat?
     setTimeout(scrape, 30000);
