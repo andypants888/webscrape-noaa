@@ -59,6 +59,12 @@ let currentPackage = {
 };
 
 async function scrape() {
+  console.log("before deleted ID", typeof currentPackage["_id"]);
+  if (typeof currentPackage["_id"] === "object") {
+    delete currentPackage["_id"];
+  }
+  console.log("after delete ID", typeof currentPackage["_id"]);
+
   currentPackage["scrape_time"] = new Date();
 
   const browser = await puppeteer.launch({
