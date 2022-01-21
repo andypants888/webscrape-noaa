@@ -89,6 +89,7 @@ async function scrape() {
   const browser = await puppeteer.launch({
     headless: true,
     defaultViewport: false,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   try {
