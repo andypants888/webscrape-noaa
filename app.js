@@ -230,7 +230,7 @@ async function createForecast(client, newForecast) {
 scrape();
 
 exports.scrape = scrape;
-exports.wrapper = wrapper;
-exports.exam = exam;
+// exports.wrapper = wrapper;
+// exports.exam = exam;
 exports.package = currentPackage;
 exports.emptyArr = scrapedPackage;
