@@ -79,6 +79,8 @@ async function scrape() {
     console.log("End Tests");
     // Repeat errors in lines 44 to 138 on repeat?
   }
+  console.log("new Date test: ", new Date());
+
   console.log("after delete ID", typeof currentPackage["_id"]);
 
   currentPackage["scrape_time"] = new Date();
