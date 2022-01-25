@@ -196,8 +196,8 @@ async function scrape() {
   } finally {
     browser.close();
 
-    // Run once every 2 hours
-    setTimeout(scrape, 30000);
+    // Use Heroku Scheduler to Loop instead of nodejs.
+    // setTimeout(scrape, 30000);
   }
 }
 // Production 120 min = 7,200,000 ms
