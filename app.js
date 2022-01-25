@@ -197,10 +197,10 @@ async function scrape() {
     browser.close();
 
     // Run once every 2 hours
-    setTimeout(scrape, 7200000);
+    setTimeout(scrape, 30000);
   }
 }
-// Production 60 min = 3,600,000 ms
+// Production 120 min = 7,200,000 ms
 // const interval3Hours = setInterval(() => scrape(), 10800000);
 
 // Interval Test 30 secs = 30,000ms
