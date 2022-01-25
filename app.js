@@ -189,7 +189,7 @@ async function scrape() {
       resolve(currentPackage);
     });
     // const result = await preResult;
-    // console.log("result: ", result);
+    console.log("result: ", result);
     return preResult;
   } catch (error) {
     console.log("error in scrape function");
