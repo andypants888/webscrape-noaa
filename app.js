@@ -182,14 +182,18 @@ async function scrape() {
     }
 
     // Call to MongoDB
-    sendData().catch(console.error);
+    try {
+      sendData().catch(console.error);
+    } catch (error) {
+      console.log("error in sendData call");
+    }
 
     await browser.close();
     const preResult = new Promise((resolve, reject) => {
       resolve(currentPackage);
     });
     // const result = await preResult;
-    // console.log("result: ", result);
+    console.log("result: ", result);
     return preResult;
   } catch (error) {
     console.log("error in scrape function");
