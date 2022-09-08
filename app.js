@@ -225,7 +225,13 @@ async function createForecast(client, newForecast) {
   console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
-scrape();
+// scrape();
+
+// Production 20 min = 1,200,000 ms
+setInterval(() => scrape(), 1200000);
+
+// Interval Test 30 secs = 30,000ms
+// const interval30Sec = setInterval(() => scrape(), 30000);
 
 // Production 20 min = 1,200,000 ms
 // setInterval(() => scrape(),  1200000);
