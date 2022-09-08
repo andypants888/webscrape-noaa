@@ -200,11 +200,7 @@ async function scrape() {
     // setTimeout(scrape, 30000);
   }
 }
-// Production 120 min = 7,200,000 ms
-// const interval3Hours = setInterval(() => scrape(), 10800000);
 
-// Interval Test 30 secs = 30,000ms
-// const interval30Sec = setInterval(() => scrape(), 30000);
 async function sendData() {
   const uri = `mongodb+srv://spaceweather:${process.env.PASSWORD}@cluster0.ya4xd.mongodb.net/test?retryWrites=true&w=majority`;
   const client = new MongoClient(uri);
@@ -229,7 +225,13 @@ async function createForecast(client, newForecast) {
   console.log(`ID: ${result.insertedId} Forecast for ${new Date()} added`);
 }
 
-scrape();
+// scrape();
+
+// Production 20 min = 1,200,000 ms
+setInterval(() => scrape(), 1200000);
+
+// Interval Test 30 secs = 30,000ms
+// const interval30Sec = setInterval(() => scrape(), 30000);
 
 exports.scrape = scrape;
 // exports.wrapper = wrapper;
